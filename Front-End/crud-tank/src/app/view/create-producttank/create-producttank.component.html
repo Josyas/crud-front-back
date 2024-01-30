@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <title>Sua Página</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="/producttype">Cadastro de Categoria</a>
+        </li>
+        </ul>
+    </div>
+    </nav>
+    <div class="container mt-4 d-flex align-items-center justify-content-center">
+        <div class="col-md-12">
+          <form style="margin-top: 4%;">
+            <h2 class="text-center">Cadastro de Produto</h2>
+            <br>
+            <div class="mb-3">
+              <label for="deposito" class="form-label">Deposito</label>
+              <input [(ngModel)]="tankModel.Deposit" name="deposito" type="text" class="form-control" id="deposito" required>
+            </div>
+            <div class="mb-3">
+              <label for="capacidade" class="form-label">Capacidade</label>
+              <input [(ngModel)]="tankModel.Capacity" name="capacidade" type="text" class="form-control" id="capacidade" required>
+            </div>
+            <div class="mb-3">
+                <label for="tipoProduto" class="form-label">Tipo de Produto</label>
+                <select name="tipoProduto" class="form-control" id="tipoProduto" [(ngModel)]="tankModel.ProductTypeId">
+                  <option value="" disabled selected>Selecione um tipo de produto</option>
+                  <option *ngFor="let type of productTypes" [value]="type.Id">{{ type.Name }}</option>
+                </select>
+            </div>
+            <div class="d-flex justify-content-center" style="margin-top: 2%;">
+              <button (click)="createTankEvent()" type="button" class="btn btn-primary">Salvar</button>
+            </div>
+            <br>
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Deposito</th>
+                    <th class="text-center" scope="col">Capacidade</th>
+                    <th class="text-right" scope="col">Tipo de Produto</th> 
+                    <th class="text-right" scope="col">Ações</th> 
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let tank of productTank | paginate: { itemsPerPage: 8, currentPage: p }">
+                    <td>{{ tank.Deposit }}</td>
+                    <td class="text-center">{{ tank.Capacity }}</td>
+                    <td class="text-right">{{ tank.ProductType?.Name }}</td> 
+                    <td class="text-right">
+                      <button (click)="selecionarTank(tank.Id, tank.Deposit, tank.Capacity, tank.ProductTypeId)" (click)="openModal()" class="btn btn-warning btn-sm mr-2">Editar</button>
+                      <button  (click)="excluirTank(tank.Id, tank.Deposit, tank.Capacity, tank.ProductTypeId)" class="btn btn-danger btn-sm">Excluir</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+           </form>
+           <div class="modal" [ngClass]="{ 'open': isModalOpen }">
+            <div class="modal-content">
+              <span class="close" (click)="closeModal()">&times;</span>
+              <div style="margin-block: 8%;" class="container mt-5">
+                <h2 class="col-md-12 col-lg-12 text-center my-2">Tanque</h2>
+                  <div class="row">
+                      <div class="col-md-12">
+                        <label for="nomeCompleto" class="form-label">Deposito</label>
+                        <input [(ngModel)]="tankModel.Deposit" name="nome" type="text" class="form-control" id="nomeCompleto" required>
+                      </div>
+                      <div class="col-md-12">
+                        <label for="nomeCompleto" class="form-label">Capacidade</label>
+                        <input [(ngModel)]="tankModel.Capacity" name="nome" type="text" class="form-control" id="nomeCompleto" required>
+                      </div>
+                      <div class="col-md-12">
+                        <label for="tipoProduto" class="form-label">Tipo de Produto</label>
+                        <select name="tipoProduto" class="form-control" id="tipoProduto" [(ngModel)]="tankModel.ProductTypeId">
+                          <option value="" disabled selected>Selecione um tipo de produto</option>
+                          <option *ngFor="let type of productTypes" [value]="type.Id">{{ type.Name }}</option>
+                        </select>
+                      </div>
+                      <br>
+                      <div class="col-md-12 col-lg-12 text-center my-2">
+                      <button (click)="updateProdutctTypeEvent()" type="submit" class="btn btn-primary mx-2">Alterar</button>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>
